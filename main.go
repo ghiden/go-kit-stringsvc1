@@ -94,7 +94,7 @@ func methodControl(method string, h http.Handler) http.Handler {
 		if r.Method == method {
 			h.ServeHTTP(w, r)
 		} else {
-			w.WriteHeader(405)
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}
 	})
 }
