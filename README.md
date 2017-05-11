@@ -27,3 +27,19 @@ $ curl -v localhost:8080/uppercase
 <
 * Connection #0 to host localhost left intact
 ```
+
+```go
+func methodControl(method string, h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == method {
+			h.ServeHTTP(w, r)
+		} else {
+			w.WriteHeader(405)
+		}
+	})
+}
+```
+
+```go
+http.Handle("/uppercase", methodControl("POST", uppercaseHandler))
+```
