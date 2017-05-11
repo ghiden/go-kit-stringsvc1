@@ -1,14 +1,14 @@
 # Go kit: stringsvc1 with http method check
 
-[Go kit](https://gokit.io)
-[stringsvc](https://gokit.io/examples/stringsvc.html)
+[Go kit](https://gokit.io)  
+[stringsvc](https://gokit.io/examples/stringsvc.html)  
 
 When I tested the stringsvc example with different method like GET, it just returned 500.
 So here it is, the same example with method check.
 
 ```
-go build
-./stringsvc
+go build -o server
+./server
 ```
 
 ```
@@ -34,7 +34,7 @@ func methodControl(method string, h http.Handler) http.Handler {
 		if r.Method == method {
 			h.ServeHTTP(w, r)
 		} else {
-			w.WriteHeader(405)
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}
 	})
 }
